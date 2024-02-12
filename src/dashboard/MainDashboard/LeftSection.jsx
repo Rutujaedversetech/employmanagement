@@ -6,12 +6,20 @@ import ButtonSection from './LeftSection/ButtonSection'
 import RingCharts from './LeftSection/RingCharts'
 
 const LeftSection = () => {
+
+
+
+
+
+
+
+  
   return (
     <Box width={'70%'}>
         <FirsrtSection/>
         <RingCharts/>
-        <ButtonSection/>
-         <ThirdSection/> 
+        {/* <ButtonSection/> */}
+         {/* <ThirdSection/>  */}
     </Box>
   )
 }

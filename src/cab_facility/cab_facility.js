@@ -1,14 +1,44 @@
-import React from "react";
-import { Flex, Icon } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { Flex, Icon, useDisclosure } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react';
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { Checkbox } from "@chakra-ui/react";
+import { TbGps } from "react-icons/tb";
 
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+import BookACab from "./book_a_cab";
+import { useDispatch, useSelector } from "react-redux";
+import { decodeToken } from 'react-jwt';
+import { getempcabrequest } from "../Redux/cab/action";
 
 const CabFacility = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const  data = useSelector((store) => store.auth.data);
+  const  data2 = useSelector((store) => store.auth.singleData);
+  const  cab = useSelector((store) => store.cab.data);
+  console.log('cab',cab)
+const dispatch=useDispatch()
+console.log(data,data2)
+
+const myDecodedToken = decodeToken(data.token);
+console.log('myDecodedToken123 asset',myDecodedToken);
+
+useEffect(()=>{
+  dispatch(getempcabrequest(myDecodedToken.emp_id))
+},[])
+
+
     return (
         <>
         <Flex w={'100%'} h={100} borderRadius={'28px'} fontFamily="Inter">
@@ -20,9 +50,35 @@ const CabFacility = () => {
                 Filter
             </Button>
 
-            <Button mt={5} ml={3} border={'1px'} borderRadius={'10px'} paddingLeft={30} paddingRight={6} colorScheme='#FFB800' background={'black'} color={'#FFB800'} variant='outline' borderColor={'black'}>
-            <Link to="/BookACab"> Book Your Cab</Link>
+            <Button mt={5} onClick={onOpen} ml={3} border={'1px'} borderRadius={'10px'} paddingLeft={30} paddingRight={6} colorScheme='#FFB800' background={'black'} color={'#FFB800'} variant='outline' borderColor={'black'}>
+           Book Your Cab
             </Button>
+
+
+
+            <Modal isOpen={isOpen} onClose={onClose} size={'lg'}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <BookACab onClose={onClose} myDecodedToken={myDecodedToken}/>
+          </ModalBody>
+
+          <ModalFooter>
+           
+
+            {/* <Button mt={'-26%'} onClick={onClose} border={'1px'} borderRadius={'10px'} colorScheme='#DDE2E4' background={'#ECECEC'} variant='outline' borderColor={'#DDE2E4'}>
+            Cancel
+            </Button>
+
+            <Button ml={'8%'} mt={'-26%'} border={'1px'} borderRadius={'10px'} colorScheme='#FFB800' color={'#FFB800'} background={'black'} variant='outline' padding={'5%'} borderColor={'black'}>
+            <Link to="/ticket">Submit</Link>    
+            </Button> */}
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+
         </Flex>
 
 
@@ -36,27 +92,22 @@ const CabFacility = () => {
                     <Th>Date & Time</Th>
                     <Th>From</Th>
                     <Th>To</Th>
-                    <Th>Status</Th>
                     <Th>Track</Th>
                   </Tr>
                 </Thead>
-                <Tbody>
-                  <Tr>
-                  <Th><Checkbox ></Checkbox></Th>
-                    <Td>26466966465</Td>
-                    <Td>July 2024 10:00AM</Td>
-                    <Td>xyz</Td>
-                    <Td>Gera Junction</Td>
-                    <Td color={'green'}>Scheduled</Td>
-                    <Td>
-                        <Icon ml={2}>
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C9.23858 4 7 6.23858 7 9C7 11.7879 8.61169 15.8673 12 19.5553C15.3883 15.8673 17 11.7879 17 9C17 6.23858 14.7614 4 12 4ZM5 9C5 5.13401 8.13401 2 12 2C15.866 2 19 5.13401 19 9C19 12.6522 16.8356 17.5787 12.7071 21.7071C12.3166 22.0976 11.6834 22.0976 11.2929 21.7071C7.16444 17.5787 5 12.6522 5 9Z" fill="#F9BD3B"/>
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C12.5523 10 13 9.55228 13 9C13 8.44772 12.5523 8 12 8C11.4477 8 11 8.44772 11 9C11 9.55228 11.4477 10 12 10ZM12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" fill="#F9BD3B"/>
-                        </Icon>
-                    </Td>
-                    
+                {cab&&cab.map((el)=>{
+                  return  <Tbody bg='' width={'100%'}>
+                  <Tr boxShadow='0px 5px 20px 0px #00000026' borderRadius={'18px'} >
+                    <Th><Checkbox ></Checkbox></Th>
+                    <Td>2348543</Td>
+                    <Td>{el.cab_date}</Td>
+                    <Td>{el.cab_from}</Td>
+                    <Td>{el.cab_to}</Td>
+                    <Td color={'orange'}><TbGps /></Td>
+                    {/* <Td><DeleteIcon ml={4} color={'#FFB800'} /></Td> */}
                   </Tr>
                 </Tbody>
+                })}
               </Table>
           </TableContainer>
 

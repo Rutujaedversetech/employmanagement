@@ -23,7 +23,7 @@ import {
   Heading,
   Button
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import Logo from "../Admin/";
 import { Icon } from "@chakra-ui/icon"
 import { InputGroup, InputLeftElement,Input } from "@chakra-ui/react";
@@ -37,7 +37,10 @@ import {
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
+import { useDispatch, useSelector } from "react-redux";
 //import Logo from "../Admin/Logo.png";
+import { decodeToken } from 'react-jwt';
+import { signout } from "../Redux/auth/action";
 
 
 const LinkItems = [
@@ -49,9 +52,17 @@ export default function SidebarWithHeader({
   children,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const  data = useSelector((store) => store.auth.data);
+  const  data2 = useSelector((store) => store.auth.singleData);
+
+console.log(data,data2)
+
+const myDecodedToken = decodeToken(data.token);
+console.log('myDecodedToken123',myDecodedToken);
+// console.log('date', date);
 
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box minH="100vh" bg={useColorModeValue("white", "gray.900")}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "none", lg: "block" }}
@@ -81,6 +92,10 @@ export default function SidebarWithHeader({
 
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const  data = useSelector((store) => store.auth.data);
+console.log(data)
+
+const myDecodedToken = decodeToken(data.token);
   return (
     <Box
       transition="3s ease"
@@ -88,30 +103,29 @@ const SidebarContent = ({ onClose, ...rest }) => {
     //   borderRight="1px"
       //borderRightColor={useColorModeValue("gray.200", "gray.700")}
       w={{ base: "full", md: 60 }}
-      pos="fixed"
+      pos="absolute"
       bg=''
+      //w='auto'
       h="full"
-      {...rest}
+      {...rest}F9F9F9
     >
-      <Flex w='100%' h= '100vh' background='#F9F9F9' borderRadius='30px'>
-        {/* <Flex w='18%'
-        h='100vh' background='pink' borderRadius='20px' border='1px solid #EFF0F6'> */}
+        <Flex w='100%'
+        h='' background='' borderRadius='20px' > 
    <justifyContent>
-        <Text w='100%' ml='64%' mt='20%' color='#FFB800' fontFamily='Inter' fontSize='24px' fontStyle='normal' fontWeight='700' lineHeight='normal' >EDVERSE</Text>
+        <Text w='100%' ml='64%' textAlign={''} color='#FFB800' fontFamily='Inter' fontSize='24px' fontStyle='normal' fontWeight='700' lineHeight='normal' >EDVERSE</Text>
         <Box border='1px solid #FFB800' h='15vh' w='15vh' mt='10%' ml='60%'  borderRadius='50%' overflow='hidden'>
           <Link to='/profile'>        <Avatar h={'15vh'} w={'15vh'} src='https://bit.ly/sage-adebayo'></Avatar>
 
           </Link>
         </Box>
-        <Text w='100%' mt='6%' ml='68%' color='#000' fontFamily='Inter' fontSize='14px' fontStyle='normal' fontWeight='600' lineHeight='18px'>Sam Wheeler</Text>
-        <Text w='100%' mt='2%' ml='50%' fontFamily='Inter' fontSize='12px' fontStyle='normal' fontWeight='400' lineHeight='normal' color='rgba(0, 0, 0, 0.50)'>samwheeler@example.com</Text>
-        </justifyContent>  
-   
+        <Text w='100%' mt='6%' ml='68%' color='#000' fontFamily='Inter' fontSize='14px' fontStyle='normal' fontWeight='600' lineHeight='18px'>{myDecodedToken?myDecodedToken.emp_name:""}</Text>
+        <Text w='100%' mt='2%' ml='50%' fontFamily='Inter' fontSize='12px' fontStyle='normal' fontWeight='400' lineHeight='normal' color='rgba(0, 0, 0, 0.50)'>{myDecodedToken?myDecodedToken.emp_email:""}</Text>
+        </justifyContent> 
         <justifyContent>
           <Icon mt='280%' ml='-90%' w={5} h={5} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M1.71429 0C0.767511 0 0 0.767511 0 1.71429V12C0 12.9468 0.767511 13.7143 1.71429 13.7143H8.57143C9.51821 13.7143 10.2857 12.9468 10.2857 12V1.71429C10.2857 0.767511 9.51821 0 8.57143 0H1.71429ZM13.7143 1.71429C13.7143 0.767511 14.4818 0 15.4286 0H22.2857C23.2325 0 24 0.767511 24 1.71429V5.16C24 6.10677 23.2325 6.87429 22.2857 6.87429H15.4286C14.4818 6.87429 13.7143 6.10677 13.7143 5.16V1.71429ZM13.7143 12C13.7143 11.0532 14.4818 10.2857 15.4286 10.2857H22.2857C23.2325 10.2857 24 11.0532 24 12V22.2857C24 23.2325 23.2325 24 22.2857 24H15.4286C14.4818 24 13.7143 23.2325 13.7143 22.2857V12ZM0 18.84C0 17.8932 0.767511 17.1257 1.71429 17.1257H8.57143C9.51821 17.1257 10.2857 17.8932 10.2857 18.84V22.2857C10.2857 23.2325 9.51821 24 8.57143 24H1.71429C0.767511 24 0 23.2325 0 22.2857V18.84Z" fill="#4D4D4D"/>
           </Icon>
-          <Text mt='-25%' ml='-50%' fontFamily='Inter' fontSize='14px' fontStyle='normal' fontWeight='500' lineHeight='normal' color='rgba(0, 0, 0, 0.70)' letterSpacing='-0.154px'><Link to='/'>My Dashboard</Link></Text>
+          <Text mt='-25%' ml='-50%' fontFamily='Inter' fontSize='14px' fontStyle='normal' fontWeight='500' lineHeight='normal' color='rgba(0, 0, 0, 0.70)' letterSpacing='-0.154px'><Link to='/dashboard'>My Dashboard</Link></Text>
           
           <Icon mt='20%' ml='-90%' w={5} h={5} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M4.8 1.33333C4.8 0.596954 5.33726 0 6 0C6.66274 0 7.2 0.596954 7.2 1.33333V2.66667H16.8V1.33333C16.8 0.596954 17.3373 0 18 0C18.6627 0 19.2 0.596954 19.2 1.33333V2.66667H20.4C22.3882 2.66667 24 4.45753 24 6.66667V20C24 22.2091 22.3882 24 20.4 24H3.6C1.61177 24 0 22.2091 0 20V6.66667C0 4.45753 1.61178 2.66667 3.6 2.66667H4.8V1.33333ZM2.4 20V10.6667H21.6V20C21.6 20.7364 21.0627 21.3333 20.4 21.3333H3.6C2.93726 21.3333 2.4 20.7364 2.4 20Z" fill="#4D4D4D"/>
@@ -183,10 +197,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </Icon>
           <Text mt='-25%' ml='-50%' fontFamily='Inter' fontSize='14px' fontStyle='normal' fontWeight='500' lineHeight='normal' color='rgba(0, 0, 0, 0.70)' letterSpacing='-0.154px'><Link to="/Warning">Employee Warning</Link></Text>
           
-          <Icon mt='20%' ml='-90%' w={5} h={5} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.45463 2.06122e-06C6.94713 2.06122e-06 4.54231 0.996112 2.76922 2.76919C0.996151 4.54228 4.70486e-05 6.94708 4.70486e-05 9.4546C-0.00585754 11.3156 0.544131 13.136 1.57952 14.6824L0.316231 18.0631C0.176686 18.4365 0.496694 18.8198 0.889046 18.7493L5.31686 17.9527C5.75661 18.167 6.21105 18.3465 6.67593 18.4898C6.51408 17.7811 6.42859 17.0434 6.42859 16.2857C6.42859 10.8418 10.8418 6.42857 16.2857 6.42857C17.0465 6.42857 17.7873 6.51477 18.4985 6.67793C18.1517 5.54877 17.5956 4.49253 16.8571 3.56517C15.971 2.45229 14.8451 1.55373 13.5634 0.936444C12.2817 0.319159 10.8772 -0.00093723 9.45463 2.06122e-06ZM21.7409 10.8309C20.2941 9.38419 18.3319 8.57143 16.286 8.57143C15.1253 8.57066 13.9793 8.83185 12.9335 9.33551C11.8878 9.83916 10.9691 10.5723 10.2461 11.4804C9.52306 12.3884 9.01425 13.4479 8.75758 14.5799C8.50092 15.7119 8.50299 16.8872 8.7637 18.0183C9.02439 19.1494 9.53697 20.2071 10.2632 21.1125C10.9895 22.0179 11.9108 22.7479 12.9583 23.2478C14.0059 23.7477 15.1527 24.0048 16.3135 24C17.4742 23.995 18.6189 23.7283 19.6622 23.2195L23.1113 23.8401C23.5037 23.9107 23.8236 23.5274 23.6841 23.1538L22.7115 20.5512C23.5563 19.2895 24.0051 17.8042 24.0003 16.2857C24.0003 14.2398 23.1876 12.2776 21.7409 10.8309Z" fill="#4D4D4D"/>
-          </Icon>
-          <Text mt='-25%' ml='-50%' fontFamily='Inter' fontSize='14px' fontStyle='normal' fontWeight='500' lineHeight='normal' color='rgba(0, 0, 0, 0.70)' letterSpacing='-0.154px'>Edverse Chat</Text>
 
         </justifyContent>
          
@@ -207,34 +217,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         </Flex>
 
-        {/* <InputGroup w="30%" ml="5%" mt="2%">
-          <Input
-            paddingLeft="10%"
-            placeholder="Search"
-            color="black"
-            background= "#D1CECE"
-            fontFamily="Inter"
-        
-          />
-          <InputLeftElement
-            pointerEvents="none"
-            fontFamily="Inter"
-            children={<Search2Icon mt="3%" ml="18%" boxSize={5} />}
-          />
-        </InputGroup> */}
 
-      
-      {/* <BellIcon color={'#4D4D4D'} mt='3%' ml='40%' w={6} h={6} /> */}
-      {/* <SettingsIcon color={'#4D4D4D'} mt='3%' ml='1%' w={5} h={6} />  */}
-       <Box mt='5%' ml='-76%' bg={''} width={'100%'} >
-       {/* <MainDashboard/> */}
-       {/* <Box display={'flex'} flexDirection={''}  bg='' width={'100%'}>
-        <LeftSection/>
-        <RightSection/>
-    </Box> */}
-      </Box>
         
-      {/* </Flex> */}
     </Box>
   );
 };
@@ -257,13 +241,22 @@ const NavItem = ({ icon, children, url }) => {
 
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+  const handleLogout=()=>{
+    dispatch(signout())
+    navigate('/')
+
+  }
   return (
     <Flex
       ml={{ base: 0, md: 0, lg: 60 }}
-      px={{ base: 4, md: 4 }}
+     // px={{ base: 4, md: 4 }}
       height="20"
+      position={''}
       alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
+      width={'80%'}
+      bg={useColorModeValue("", "gray.900")}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
@@ -294,9 +287,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
           />
         </InputGroup>
 
-      
       <BellIcon color={'#4D4D4D'} mt='3%' ml='40%' w={6} h={6} />
       <SettingsIcon color={'#4D4D4D'} mt='3%' ml='1%' w={5} h={6} /> 
+      <Button mt='3%' ml='1%' bg='black' onClick={handleLogout} color={'orange'} variant={'outline'}>Logout</Button>
+
     </Flex>
   );
 };

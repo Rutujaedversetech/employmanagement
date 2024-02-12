@@ -1,55 +1,61 @@
-import { Box, Checkbox } from '@chakra-ui/react'
+import { Box, Checkbox,Text } from '@chakra-ui/react'
 import { Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/table'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { MdDeleteOutline } from "react-icons/md";
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteLeaveemp, getempLEAVE } from '../../../Redux/leaves/action';
+import { decodeToken } from 'react-jwt';
 
 const ThirdSection = () => {
+
+  const  leave2 = useSelector((store) => store.leave.data);
+  const  leave1 = useSelector((store) => store.leave);
+
+console.log('leave',leave2,leave1);
+const  data = useSelector((store) => store.auth.data);
+
+
+const myDecodedToken = decodeToken(data.token);
+const dispatch=useDispatch()
+useEffect(()=>{
+  dispatch(getempLEAVE(myDecodedToken.emp_id))
+},[])
+const onHandleDelete=(id)=>{
+  dispatch(deleteLeaveemp(id))
+}
+
+const leave=leave2&&leave2.filter((el)=>el.emp_id==myDecodedToken.emp_id)
+console.log('leave',leave2,leave);
+
   return (
     <div>
-        {/* <TableContainer>
-  <Table variant=''>
-    <Thead>
-      <Tr>
-        <Th>Reason</Th>
-        <Th>Request to</Th>
-        <Th>Type</Th>
 
-        <Th>days</Th>
-        <Th>status</Th>
-        <Th>delete</Th>
-
-
-      </Tr>
-    </Thead>
-    <Tbody>
-      <Tr>
-        <Td>inches</Td>
-        <Td>millimetres (mm)</Td>
-        <Td isNumeric>25.4</Td>
-      </Tr>
-      <Tr>
-        <Td>feet</Td>
-        <Td>centimetres (cm)</Td>
-        <Td isNumeric>30.48</Td>
-      </Tr>
-      <Tr>
-        <Td>yards</Td>
-        <Td>metres (m)</Td>
-        <Td isNumeric>0.91444</Td>
-      </Tr>
-    </Tbody>
-   
-  </Table>
-</TableContainer> */}
-<Box  px={{ base: 4, md: 8 }}
-      py={'2'}>
-            <TableContainer w={'100%'}  textAlign={'Center'} borderRadius={'18px'} >
-              <Table >
+{/* <Box  px={{ base: 4, md: 8 }}
+      py={'2'}> */}
+           <TableContainer w={'100%'}
+             px={{ base: 4, md: 8 }}
+             py={'2'}
+             boxShadow='0px 5px 20px 0px #00000026'
+             borderRadius={'4px'}
+            bg={''} textAlign={'Center'}  >
+              <Table spacing={'10px'} 
+               d="inline-block"
+               // borderColor="gray.200"
+        // borderRadius="md"
+        // rounded="20px"
+        rounded="md"
+        w="100%"
+        //m="50px"
+        variant="simple"
+              >
                 <Thead>
                   <Tr margin={''}>
-                    <Th><Checkbox ></Checkbox></Th>
-                    <Th>Request Id</Th>
+                    {/* <Th><Checkbox ></Checkbox></Th> */}
+                    <Th>Reasons</Th>
 
-                    <Th>Request Id</Th>
+                    <Th>Request to</Th>
+                    <Th>Type</Th>
+
                     <Th>From</Th>
                     <Th>To</Th>
                     <Th>Days</Th>
@@ -57,32 +63,35 @@ const ThirdSection = () => {
                     <Th>Status</Th>
                     <Th>Delete</Th>
                   </Tr>
-                </Thead>
-                <Tbody>
-                  <Tr boxShadow='0px 5px 20px 0px #00000026' borderRadius={'18px'} bg='' margin={'10'}>
-                    <Td><Checkbox ></Checkbox></Td>
-                    <Td>#TC-134</Td>
-                    <Td>xyz</Td>
-                    <Td>Questions</Td>
-                    <Td>Dec 20, 10:00 AM</Td>
-                    <Td>Dec 24, 11:26 AM</Td>
-                    <Td>Dec 26, 11:45 PM</Td>
-                    <Td color={'red'}>Pending</Td>
-                  </Tr>
-                  <Tr boxShadow='0px 5px 20px 0px #00000026' borderRadius={'18px'} bg='' margin={'10'}>
-                    <Td><Checkbox ></Checkbox></Td>
-                    <Td>#TC-134</Td>
-                    <Td>xyz</Td>
-                    <Td>Questions</Td>
-                    <Td>Dec 20, 10:00 AM</Td>
-                    <Td>Dec 24, 11:26 AM</Td>
-                    <Td>Dec 26, 11:45 PM</Td>
-                    <Td color={'red'}>Pending</Td>
-                  </Tr>
-                </Tbody>
+                </Thead><Tbody>
+                {leave&&leave.map((el)=>{
+               return(
+                <Tr 
+                 px={{ base: 4, md: 8 }}
+                 py={'2'}
+                 bg={''}
+                 boxShadow='0px 5px 20px 0px #00000026'
+                 borderRadius={'4px'}
+                 marginBottom={'100px'}
+                >
+                  {/* <Td><Checkbox ></Checkbox></Td> */}
+                  <Td  bg=''><Box>{el.leave_reason}</Box></Td>
+                  <Td>HR mam</Td>
+                  <Td>{el.type_of_leave}</Td>
+                  <Td>{el.leave_date_from}</Td>
+                  <Td>{el.leave_date_to}</Td>
+                  <Td>{el.leave_duration}</Td>
+
+                  <Td>{el.leaves_status}</Td>
+                  <Td><MdDeleteOutline onClick={()=>onHandleDelete(el.attendance_id)} /></Td>
+
+                </Tr>)
+                })}
+              </Tbody>
+
               </Table>
-          </TableContainer>
-</Box>
+           </TableContainer> 
+{/* </Box> */}
     </div>
   )
 }
