@@ -7,6 +7,42 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 In the project directory, you can run:
 
 ### `npm start`
+const LinkItems= [
+
+//   { name: " My Dashboard", icon: FiTrendingUp, url: "/patient/timeline" },
+//   { name: 'Calender', icon: MdNoteAdd, url: "/patient/personal/appointment" },
+//   { name: 'Projects', icon: GiFamilyHouse, url: "/patient/family" },
+
+//   { name: 'Attendence Management', icon: IoDocumentsOutline, url: "/patient/document" },
+//   { name: "Service Request", icon: BiUserPlus, url: "/patient/visit" },
+//   { name: "Finance", icon: BiUserPlus, url: "/patient/visit" },
+//   { name: "Cab Facility", icon: BiUserPlus, url: "/patient/visit" },
+//   { name: "Referral", icon: BiUserPlus, url: "/patient/visit" },
+//   { name: "Reimbursement", icon: BiUserPlus, url: "/patient/visit" },
+//   { name: "Complaints", icon: BiUserPlus, url: "/patient/visit" },
+//   { name: "Employee Warning", icon: BiUserPlus, url: "/patient/visit" },
+
+
+
+
+//   // { name: "Billing", icon: RiBillLine, url: "/patient/billing" },
+//   // { name: "User Feedback", icon: AiFillMessage, url: "/doctors/userFeedback" },
+//   //{ name: "Logout", icon: AiOutlineLogout, url: "" },
+
+
+// ];
+
+
+ <!-- <Flex h="" bg='green' alignItems="center" mx="8" justifyContent="space-between" direction={'column'}>
+      <Text w='100%' textAlign={'center'} mt='20%' color='#FFB800' fontFamily='Inter' fontSize='24px' fontStyle='normal' fontWeight='700' lineHeight='normal' >EDVERSE</Text>
+<Box border='1px solid #FFB800'    borderRadius='50%' overflow='hidden'>
+          <Link to='/profile'>       
+           <Avatar h={'15vh'} w={'15vh'} src='https://bit.ly/sage-adebayo'></Avatar>
+
+          </Link>
+        </Box>
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      </Flex> -->
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
