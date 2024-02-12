@@ -16,7 +16,9 @@ import {
   ButtonGroup,
 } from '@chakra-ui/react'
 import { FaPen } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
 
+import { decodeToken } from 'react-jwt';
 
 const testimonials = [
   {
@@ -41,6 +43,10 @@ const backgrounds = [
 
 function TestimonialCard(props) {
   const { name, role, content, avatar, index } = props
+  const  data = useSelector((store) => store.auth.data);
+console.log(data)
+
+const myDecodedToken = decodeToken(data.token);
   return (
     <Flex
       boxShadow={'lg'}
@@ -81,16 +87,17 @@ function TestimonialCard(props) {
       }}
       >
       
-      <Box textAlign={'center'} marginRight={'10'} bg=''>
+      <Box textAlign={'center'} marginRight={'10'} bg='' width={'50%'}>
       <Image
     boxSize='200px'
+    w={'100%'}
     objectFit='cover'
     src='https://bit.ly/dan-abramov'
     alt='Dan Abramov'
     borderTopRightRadius={'20px'}
   />
 
-        <Heading fontWeight={600} size={'md'}>Jenny Wilson</Heading>
+        <Heading fontWeight={600} size={'md'}>{myDecodedToken?myDecodedToken.emp_name:""}</Heading>
         <Text fontSize={'sm'} color={useColorModeValue('gray.400', 'gray.400')}>
           Vice President
         </Text>

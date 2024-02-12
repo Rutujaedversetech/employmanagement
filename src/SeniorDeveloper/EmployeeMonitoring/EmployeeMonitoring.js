@@ -14,13 +14,13 @@ import { Table, Tbody, TableContainer, Thead, Tr, Th, Checkbox, Td } from "@chak
 const EmployeeMonitoring = () => {
     return (
         <>
-        <Box mt={'4%'} ml={'10%'} w={'80%'} h={'84vh'} boxShadow='0px 5px 20px 0px #00000026' borderRadius={'28px'}>
-            <Flex w={'1140px'} h={100} borderRadius={'28px'} fontFamily="Inter">
-                <Text mt={'4%'} ml={90} w={200} fontFamily="Inter" fontSize="24px" fontStyle="normal" fontWeight="500" lineHeight="normal" color="#000000" letterSpacing="-0.154px">
+        <Box ml={'2%'} w={'96%'} h={'84vh'}>
+            <Flex mt={'-2%'} w={'100%'} h={'14vh'} borderRadius={'28px'} fontFamily="Inter">
+                <Text mt={'4%'} ml={'2%'} w={200} fontFamily="Inter" fontSize="24px" fontStyle="normal" fontWeight="500" lineHeight="normal" color="#000000" letterSpacing="-0.154px">
                     Employee Monitor
                 </Text>
 
-                <Button leftIcon={<SearchIcon color="#FFB800" />} mt={'4%'} ml={'36%'} border={'1px'} borderRadius={'10px'} paddingLeft={6} paddingRight={6} colorScheme='#DDE2E4' variant='outline' borderColor={'#DDE2E4'} color={'#707070'} fontFamily={'inter'}>
+                <Button leftIcon={<SearchIcon color="#FFB800" />} mt={'4%'} ml={'40%'} border={'1px'} borderRadius={'10px'} paddingLeft={6} paddingRight={6} colorScheme='#DDE2E4' variant='outline' borderColor={'#DDE2E4'} color={'#707070'} fontFamily={'inter'}>
                     Search By Employee Id
                 </Button>
 
@@ -34,8 +34,8 @@ const EmployeeMonitoring = () => {
             </Flex>
 
 
-            <Flex mt={'0%'} w={'1100px'} h={'40vh'} ml={'8%'} fontFamily="Inter">
-                <Stack direction={['column', 'row']} spacing='24px'>
+            <Flex mt={'0%'} w={'96%'} h={'40vh'} ml={'2%'} fontFamily="Inter">
+                <Stack direction={['column', 'row']} w={'100%'}>
                     <Box w='330px' h='24vh'>
                         <Card h={'8vh'} boxShadow='0px 5px 20px 0px #00000026' borderRadius={'28px'}>
                             <CardBody>
@@ -52,7 +52,7 @@ const EmployeeMonitoring = () => {
                         </Card>
             
                     </Box>
-                    <Box w='330px' h='24vh' ml={'10%'}>
+                    <Box w='330px' h='24vh' ml={'7%'} >
                         <Card  h={'8vh'} boxShadow='0px 5px 20px 0px #00000026' borderRadius={'28px'}>
                             <CardBody>
                                 <FormLabel mt={'-6%'} textAlign={'center'} fontFamily={'inter'} fontSize={'18px'}>Employee Name</FormLabel>
@@ -67,7 +67,7 @@ const EmployeeMonitoring = () => {
                                 </CardBody>
                         </Card>
                     </Box>
-                    <Box w='330px' h='24vh'  ml={'10%'}>
+                    <Box w='330px' h='24vh' ml={'7%'} mr={'-16%'}>
                         <Card h={'8vh'} boxShadow='0px 5px 20px 0px #00000026' borderRadius={'28px'}>
                                 <CardBody>
                                     <FormLabel mt={'-6%'} textAlign={'center'} fontFamily={'inter'} fontSize={'18px'}>Date</FormLabel>
@@ -78,12 +78,15 @@ const EmployeeMonitoring = () => {
                 </Stack>
             </Flex>
 
-            <Flex mt={'-14%'}>
-                <Text mt={25} ml={90} w={200} fontFamily="Inter" fontSize="24px" fontStyle="normal" fontWeight="500" lineHeight="normal" color="#000000" letterSpacing="-0.154px">
-                    Tracking
-                </Text>
+            <Flex mt={'-14%'} ml={'2%'} w={'96%'}>
+                <Flex  w={'100%'}>
+                    <Text mt={'2%'} ml={'0%'} w={'100%'} fontFamily="Inter" fontSize="24px" fontStyle="normal" fontWeight="500" lineHeight="normal" color="#000000" letterSpacing="-0.154px">
+                        Tracking
+                    </Text>
+                </Flex>
 
-                <TableContainer w={'84%'} mt={'6%'} ml={'-16%'} textAlign={'Center'} fontFamily="Inter" boxShadow='0px 5px 20px 0px #00000026' borderRadius={'28px'}>
+                <Flex mt={'5%'} ml={'-100%'} w={'100%'}>
+                <TableContainer  w={'900%'} mt={'0%'}  textAlign={'Center'} fontFamily="Inter" boxShadow='0px 5px 20px 0px #00000026' borderRadius={'28px'}>
                     <Table variant='simple'>
                         <Thead>
                         <Tr>
@@ -106,10 +109,11 @@ const EmployeeMonitoring = () => {
                         </Tbody>
                     </Table>
                 </TableContainer>
+                </Flex>
  
             </Flex>
 
-            <Flex ml={'66%'} mt={'18%'}  fontFamily="Inter">
+            <Flex ml={'72%'} mt={'18%'}  fontFamily="Inter">
                 <Button mt={'-26%'} border={'1px'} borderRadius={'10px'} colorScheme='#DDE2E4' variant='outline' color={'#FFB800'} background={'black'} borderColor={'black'}>
                 Download Sheet
                 </Button>

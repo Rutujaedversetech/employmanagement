@@ -1,29 +1,66 @@
-import React from "react";
-import { Box, Flex } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { Card, CardBody } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react";
 import { CheckCircleIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { Text } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getempCOMPLAINTrequest } from "../Redux/complaints/action";
+import { decodeToken } from "react-jwt";
 
 
 const Warning = () => {
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const  complaints = useSelector((store) => store.complaints.data);
+    const [product,setProduct]=useState("")
+const dispatch=useDispatch()
+console.log('====================================');
+console.log('complaints',complaints);
+console.log('====================================');
+const  data = useSelector((store) => store.auth.data);
+
+console.log(data)
+
+const myDecodedToken = decodeToken(data&&data.token);
+const myComplaints=complaints&&complaints.filter((el)=>el.rating&&el.complaint_to==myDecodedToken.emp_id)
+console.log('====================================');
+console.log('myComplaints',myComplaints);
+console.log('====================================');
+    useEffect(()=>{
+      dispatch(getempCOMPLAINTrequest())
+  },[])
     return (
         <Box mt={'4%'} ml={'26%'} w={'50%'} h={'80%'} borderRadius={'28px'}>
-            <Card>
+            {myComplaints&&myComplaints.map((el)=>{
+                var color=''
+                if(el.rating=='1'){
+                    color='#2B2B2B'
+                }
+                else if(el.rating=='2'){
+                    color='#0F61AC'
+                }
+                else if(el.rating=='3'){
+                    color='red'
+                }
+                return <Card bg='' margin={4}>
                 <CardBody background={'#2B2B2B1A'} borderRadius={'6px'} border={'1px'} borderColor={'#DDE2E4'}>
                     <CheckCircleIcon /> 
                     <SmallCloseIcon ml={'92%'}/>
-                    <Flex color={'#2B2B2B'} mt={'-3%'} ml={'5%'} fontFamily={'inter'}  lineHeight={'21.78px'} fontWeight={700}>
+                    <Flex color={color} mt={'-3%'} ml={'5%'} fontFamily={'inter'}  lineHeight={'21.78px'} fontWeight={700}>
                         <h1 fontSize={'18px'}>Alert</h1>
                     </Flex>
-                    <Text ml={'5%'} fontFamily={'inter'} fontSize={'14px'} fontWeight={500} lineHeight={'16.94px'}>Alert informs users about important changes or conditions in the interface. Use this component if you need to communicate to users in a prominent way.</Text>
-                    <Button ml={'80%'} fontFamily={'Inter'} border={'4px'} borderRadius={'10px'} borderColor={'#2B2B2B'} colorScheme='#DDE2E4' color={'white'} background={'#2B2B2B'} variant='outline' padding={'8px, 24px, 8px, 24px'}>
+                    <Text ml={'5%'} fontFamily={'inter'} fontSize={'14px'} fontWeight={500} lineHeight={'16.94px'}>{el.hr_description}</Text>
+                    <Button ml={'80%'} fontFamily={'Inter'} border={'4px'} borderRadius={'10px'} borderColor={color} colorScheme={color} color={'white'} background={color} variant='outline' padding={'8px, 24px, 8px, 24px'}>
                     Accepted
                     </Button>
                 </CardBody>
             </Card>
+            })}
+            
 
-            <Card mt={4}>
+            {/* <Card mt={4}>
                 <CardBody background={'#0F61AC1A'} borderRadius={'6px'} border={'1px'} borderColor={'#DDE2E4'}>
                     <CheckCircleIcon color={'#0F61AC'}/> 
                     <SmallCloseIcon ml={'92%'}/>
@@ -63,7 +100,7 @@ const Warning = () => {
                     Accepted
                     </Button>
                 </CardBody>
-             </Card>
+             </Card> */}
 
         </Box>
         )

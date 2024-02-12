@@ -4,18 +4,27 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider, extendTheme, ColorModeScript } from '@chakra-ui/react';
-
+import { Provider } from 'react-redux';
+import { store } from './Redux/store';
+import { BrowserRouter } from 'react-router-dom';
 const config = {initialColorMode: '#F9F9F9'}
 const theme = extendTheme ({config})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+     <Provider store={store}>     
+
   <ChakraProvider theme={theme}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    <BrowserRouter>
+
     <App />
+    </BrowserRouter>
+
   </ChakraProvider>
-  
+  </Provider>     
+
   </React.StrictMode>
 );
 

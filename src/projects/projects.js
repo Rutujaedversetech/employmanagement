@@ -10,9 +10,51 @@ import { Avatar, Wrap, AvatarGroup } from "@chakra-ui/react";
 import { GridItem, Grid } from "@chakra-ui/react";
 import { FormLabel } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getempongoingproject, getempongoingproject2 } from "../Redux/projects/action";
+import { decodeToken } from "react-jwt";
+import { useEffect } from "react";
+import { getempongoingTASK } from "../Redux/task/action";
 
 
 const Projects = () => {
+    const  data = useSelector((store) => store.auth.data);
+    const  project90 = useSelector((store) => store.project.data);
+    const  project9 = useSelector((store) => store.project.data2);
+
+const projects=[1]
+const project=[1,4]
+
+console.log('project',project90,project9);
+const  data123 = useSelector((store) => store.task.data);
+console.log('====================================');
+console.log('data123789',data123);
+console.log('====================================');
+ const dispatch=useDispatch()
+ //console.log('project',project90);
+    const myDecodedToken = decodeToken(data.token);
+  
+    useEffect(()=>{
+        dispatch(getempongoingproject(myDecodedToken.emp_id))
+        dispatch(getempongoingproject2(myDecodedToken.emp_id))
+        dispatch(getempongoingTASK(myDecodedToken.emp_id))
+
+      },[])
+
+
+const ongoingProject=project90&&project90.filter((el)=> el.project_status=='in_progress'&&el.emp_id==myDecodedToken.emp_id)
+const pastProject=project90&&project90.filter((el)=> el.project_status=='completed'&&el.emp_id==myDecodedToken.emp_id)
+const ongoingtask=data123&&data123.filter((el)=> el.task_status=='pending'&&el.emp_id==myDecodedToken.emp_id)
+
+
+console.log('ongoingProject',ongoingtask);
+
+
+
+
+
+
+      
     return (
         <>
         <Flex mt={'3%'} w={'100%'} h={'30%'} borderRadius={'28px'} fontFamily="Inter">
@@ -29,430 +71,257 @@ const Projects = () => {
                     </Thead>
                     <Tbody>
                         <Tr fontSize={'14px'} textAlign={'center'}>
-                            <Td>45</Td>
-                            <Td>25</Td>
+                            <Td>{project90&&project90[project90.length-1]?(project90[project90.length-1].project_name):""}</Td>
+                            <Td>{project9&&project9.length?(project9.length):""}</Td>
                             <Td>19 Jan 2024</Td>
-                            <Td>19 Jan 2024</Td>
+                            <Td>{data123&&data123.length?(project9.length):""}</Td>
                         </Tr>
                     </Tbody>
                 </Table>
             </TableContainer>
 
         </Flex>
+<Flex h={'90px'} gap={'10px'}>
+<SimpleGrid bg='' w='33%'>
+<Box bg='' p='4'>
+    <Heading size='md' textAlign={'center'}>Ongoing Projects</Heading>
 
-        <SimpleGrid columns={3} spacing={10} mt={'2%'} ml={'5%'} w={'90%'}>
-        <Box>
-            <Box>
-                <Heading ml={'4%'} fontSize={'24px'} fontFamily={'inter'} >Ongoing Projects 
-                    <Button bg='white' colorScheme='' variant='' color={'black'} rightIcon={<CiCirclePlus color="#F9BD3B" />} ml={'44%'} size={'24px'}></Button>
-                </Heading>
-            </Box>
-
-            <Box mt={4} boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
-                <Card background={'#ECF4FE'}>
-                    <CardBody>
-                        <Stack divider={<StackDivider />} spacing='4'>
-                            <Box>
-                                <FormLabel fontSize={'12px'}>60%</FormLabel>
-                                <Progress ml={'8%'} mt={'-5%'}
-                                    colorScheme="yellow"
-                                    borderColor="#F9BD3B"
-                                    borderRadius={'18px'}
-                                    size='sm'
-                                    value={60}
-                                />
-
-                                <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>Development Task</Heading>
-                            
-                                <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
-                                    Designed to monitor small and medium teams, Team Analytics enables companies to take a data-driven approach in improving office environment.
-                                </Text>
-
-                                <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Start Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>End Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Completion Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>19 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>24 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
-                                    </GridItem>
-                                </Grid>
-
-                            </Box>
-                            <Box>
-                                <Wrap>
-                                    <Link to='/Teams'><AvatarGroup size={'sm'} max={3}> 
-                                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
-                                    </AvatarGroup></Link>
-                                </Wrap>
-                            </Box>
-                        </Stack>
-                    </CardBody>
-                </Card>
-            </Box>
-        </Box>
+    </Box>
+{ongoingProject&&ongoingProject.map((el)=>{
+    return(
+        <Box bg=''>
            
+        <Box mt={4} boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
+            <Card background={'#ECF4FE'} bg=''>
+                <CardBody>
+                    <Stack divider={<StackDivider />} spacing='4'>
+                        <Box>
+                            {/* <FormLabel fontSize={'12px'}>{el.project_progress}%</FormLabel>
+                            <Progress ml={'8%'} mt={'-5%'}
+                                colorScheme="yellow"
+                                borderColor="#F9BD3B"
+                                borderRadius={'18px'}
+                                size='sm'
+                                value={60}
+                            /> */}
 
-        <Box>
-            <Box>
-                <Heading ml={'4%'} fontSize={'24px'} fontFamily={'inter'} >Past Projects 
-                    <Button bg='white' colorScheme='' variant='' color={'black'} rightIcon={<CiCirclePlus color="#F9BD3B" />} ml={'54%'} size={'24px'}></Button>
-                </Heading>
-            </Box>
+                            <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>{el.project_name}</Heading>
+                        
+                            <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
+                                {el.project_description}              
+                                {el.project_description}
+                  {el.project_description}
 
-            <Box mt={4} boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
-                <Card background={'#FCF8EF'}>
-                    <CardBody>
-                        <Stack divider={<StackDivider />} spacing='4'>
-                            <Box>
-                                <FormLabel fontSize={'12px'}>60%</FormLabel>
-                                <Progress ml={'8%'} mt={'-5%'}
-                                    colorScheme="yellow"
-                                    borderColor="#F9BD3B"
-                                    borderRadius={'18px'}
-                                    size='sm'
-                                    value={60}
-                                />
+                            </Text>
 
-                                <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>Development Task</Heading>
-                            
-                                <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
-                                    Designed to monitor small and medium teams, Team Analytics enables companies to take a data-driven approach in improving office environment.
-                                </Text>
+                            <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Start Date</Text>
+                                </GridItem>
 
-                                <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Start Date</Text>
-                                    </GridItem>
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Estimated End Date</Text>
+                                </GridItem>
 
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>End Date</Text>
-                                    </GridItem>
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Completion Date</Text>
+                                </GridItem>
 
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Completion Date</Text>
-                                    </GridItem>
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>{el.project_start_date}</Text>
+                                </GridItem>
 
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>19 Jan 2024</Text>
-                                    </GridItem>
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>{el.project_end_date}</Text>
+                                </GridItem>
 
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>24 Jan 2024</Text>
-                                    </GridItem>
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
+                                </GridItem>
+                            </Grid>
 
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
-                                    </GridItem>
-                                </Grid>
-
-                            </Box>
-                            <Box>
-                                <Wrap>
-                                    <Link to='/Teams'><AvatarGroup size={'sm'} max={3}>
-                                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
-                                    </AvatarGroup></Link>
-                                </Wrap>
-                            </Box>
-                        </Stack>
-                    </CardBody>
-                </Card>
-            </Box>
+                        </Box>
+                        <Box>
+                            <Wrap>
+                                <Link to='/Teams'><AvatarGroup size={'sm'} max={3}> 
+                                    <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                                    <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                                    <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
+                                    <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
+                                    <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                                </AvatarGroup></Link>
+                            </Wrap>
+                        </Box>
+                    </Stack>
+                </CardBody>
+            </Card>
         </Box>
-
-
-        <Box>
-            <Box>
-                <Heading ml={'4%'} fontSize={'24px'} fontFamily={'inter'} >My Tasks
-                    <Button bg='white' colorScheme='' variant='' color={'black'} rightIcon={<CiCirclePlus color="#F9BD3B" />} ml={'62%'} size={'24px'}></Button>
-                </Heading>
-            </Box>
-
-            <Box mt={4} boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
-                <Card background={'#F2F0FD'}>
-                    <CardBody>
-                        <Stack divider={<StackDivider />} spacing='4'>
-                            <Box>
-                                <FormLabel fontSize={'12px'}>60%</FormLabel>
-                                <Progress ml={'8%'} mt={'-5%'}
-                                    colorScheme="yellow"
-                                    borderColor="#F9BD3B"
-                                    borderRadius={'18px'}
-                                    size='sm'
-                                    value={60}
-                                />
-
-                                <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>Development Task</Heading>
-                            
-                                <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
-                                    Designed to monitor small and medium teams, Team Analytics enables companies to take a data-driven approach in improving office environment.
-                                </Text>
-
-                                <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Start Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>End Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Completion Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>19 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>24 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
-                                    </GridItem>
-                                </Grid>
-
-                            </Box>
-                            <Box>
-                                <Wrap>
-                                    <Link to='/Teams'><AvatarGroup size={'sm'} max={3}>
-                                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
-                                    </AvatarGroup></Link>
-                                </Wrap>
-                            </Box>
-                        </Stack>
-                    </CardBody>
-                </Card>
-            </Box>
-        </Box>
-
-  
-
-
-
-           
-        <Box boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
-                <Card background={'#ECF4FE'}>
-                    <CardBody>
-                        <Stack divider={<StackDivider />} spacing='4'>
-                            <Box>
-                                <FormLabel fontSize={'12px'}>60%</FormLabel>
-                                <Progress ml={'8%'} mt={'-5%'}
-                                    colorScheme="yellow"
-                                    borderColor="#F9BD3B"
-                                    borderRadius={'18px'}
-                                    size='sm'
-                                    value={60}
-                                />
-
-                                <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>Development Task</Heading>
-                            
-                                <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
-                                    Designed to monitor small and medium teams, Team Analytics enables companies to take a data-driven approach in improving office environment.
-                                </Text>
-
-                                <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Start Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>End Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Completion Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>19 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>24 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
-                                    </GridItem>
-                                </Grid>
-
-                            </Box>
-                            <Box>
-                                <Wrap>
-                                    <Link to='/Teams'><AvatarGroup size={'sm'} max={3}>
-                                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
-                                    </AvatarGroup></Link>
-                                </Wrap>
-                            </Box>
-                        </Stack>
-                    </CardBody>
-                </Card>
-            </Box>
-        
-
-            <Box boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
-                <Card background={'#FCF8EF'}>
-                    <CardBody>
-                        <Stack divider={<StackDivider />} spacing='4'>
-                            <Box>
-                                <FormLabel fontSize={'12px'}>60%</FormLabel>
-                                <Progress ml={'8%'} mt={'-5%'}
-                                    colorScheme="yellow"
-                                    borderColor="#F9BD3B"
-                                    borderRadius={'18px'}
-                                    size='sm'
-                                    value={60}
-                                />
-
-                                <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>Development Task</Heading>
-                            
-                                <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
-                                    Designed to monitor small and medium teams, Team Analytics enables companies to take a data-driven approach in improving office environment.
-                                </Text>
-
-                                <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Start Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>End Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Completion Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>19 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>24 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
-                                    </GridItem>
-                                </Grid>
-
-                            </Box>
-                            <Box>
-                                <Wrap>
-                                    <Link to='/Teams'><AvatarGroup size={'sm'} max={3}>
-                                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
-                                    </AvatarGroup></Link>
-                                </Wrap>
-                            </Box>
-                        </Stack>
-                    </CardBody>
-                </Card>
-            </Box>
-        
-
-            <Box boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
-                <Card background={'#F2F0FD'}>
-                    <CardBody>
-                        <Stack divider={<StackDivider />} spacing='4'>
-                            <Box>
-                                <FormLabel fontSize={'12px'}>60%</FormLabel>
-                                <Progress ml={'8%'} mt={'-5%'}
-                                    colorScheme="yellow"
-                                    borderColor="#F9BD3B"
-                                    borderRadius={'18px'}
-                                    size='sm'
-                                    value={60}
-                                />
-
-                                <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>Development Task</Heading>
-                            
-                                <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
-                                    Designed to monitor small and medium teams, Team Analytics enables companies to take a data-driven approach in improving office environment.
-                                </Text>
-
-                                <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Start Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>End Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='1'>
-                                        <Text fontSize={'10px'}>Completion Date</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>19 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>24 Jan 2024</Text>
-                                    </GridItem>
-
-                                    <GridItem w='100%' h='2'>
-                                        <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
-                                    </GridItem>
-                                </Grid>
-
-                            </Box>
-                            <Box>
-                                <Wrap>
-                                    <Link to='/Teams'><AvatarGroup size={'sm'} max={3}>
-                                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
-                                    </AvatarGroup></Link>
-                                </Wrap>
-                            </Box>
-                        </Stack>
-                    </CardBody>
-                </Card>
-            </Box>
-
+    </Box>
+    )
+})}
         </SimpleGrid>
+
+
+
+        <SimpleGrid bg='' w='33%'>
+
+<Box bg='' p='4'>
+    <Heading size='md' textAlign={'center'}>Past Projects</Heading>
+
+    </Box>
+{pastProject&&pastProject.map((el)=>{
+    return(
+        <Box bg=''>
+           
+        <Box mt={4} boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
+            <Card background={'#ECF4FE'} bg=''>
+                <CardBody>
+                    <Stack divider={<StackDivider />} spacing='4'>
+                        <Box>
+                            {/* <FormLabel fontSize={'12px'}>{el.project_progress}%</FormLabel>
+                            <Progress ml={'8%'} mt={'-5%'}
+                                colorScheme="yellow"
+                                borderColor="#F9BD3B"
+                                borderRadius={'18px'}
+                                size='sm'
+                                value={60}
+                            /> */}
+
+                            <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>{el.project_name}</Heading>
+                        
+                            <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
+                                {el.project_description}              
+                                {el.project_description}
+                  {el.project_description}
+
+                            </Text>
+
+                            <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Start Date</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Estimated End Date</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Completion Date</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>{el.project_start_date}</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>{el.project_end_date}</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
+                                </GridItem>
+                            </Grid>
+
+                        </Box>
+                        <Box>
+                            <Wrap>
+                                <Link to='/Teams'><AvatarGroup size={'sm'} max={3}> 
+                                    <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                                    <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                                    <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
+                                    <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
+                                    <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                                </AvatarGroup></Link>
+                            </Wrap>
+                        </Box>
+                    </Stack>
+                </CardBody>
+            </Card>
+        </Box>
+    </Box>
+    )
+})}
+        </SimpleGrid>
+        <SimpleGrid bg='' w='33%'>
+<Box bg='' p='4'>
+    <Heading size='md' textAlign={'center'}>My task</Heading>
+
+    </Box>
+{ongoingtask&&ongoingtask.map((el)=>{
+    return(
+        <Box bg=''>
+           
+        <Box mt={4} boxShadow='0px 5px 20px 0px #00000026' borderLeftRadius={'18px'} background={'#ECF4FE'}>
+            <Card background={'#ECF4FE'} bg=''>
+                <CardBody>
+                    <Stack divider={<StackDivider />} spacing='4'>
+                        <Box>
+                            {/* <FormLabel fontSize={'12px'}>{el.task_progress}%</FormLabel>
+                            <Progress ml={'8%'} mt={'-5%'}
+                                colorScheme="yellow"
+                                borderColor="#F9BD3B"
+                                borderRadius={'18px'}
+                                size='sm'
+                                value={60}
+                            /> */}
+
+                            <Heading mt={'2%'} fontSize={'14px'} fontFamily={'inter'}>{el.task_name}</Heading>
+                        
+                            <Text pt='2' fontSize={'12px'} fontFamily={'inter'}>
+                                {el.task_description}              
+                                {el.task_description}
+                  {el.task_description}
+
+                            </Text>
+
+                            <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={'4%'} fontFamily={'inter'}>
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Start Date</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Estimated End Date</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='1'>
+                                    <Text fontSize={'10px'}>Completion Date</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>{el.task_start_date}</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>{el.task_end_date}</Text>
+                                </GridItem>
+
+                                <GridItem w='100%' h='2'>
+                                    <Text fontSize={'10px'} color={"#00000080"}>-----</Text>
+                                </GridItem>
+                            </Grid>
+
+                        </Box>
+                        <Box>
+                            <Wrap>
+                                <Link to='/Teams'><AvatarGroup size={'sm'} max={3}> 
+                                    <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                                    <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                                    <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
+                                    <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
+                                    <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                                </AvatarGroup></Link>
+                            </Wrap>
+                        </Box>
+                    </Stack>
+                </CardBody>
+            </Card>
+        </Box>
+    </Box>
+    )
+})}
+        </SimpleGrid>
+</Flex>
+       
 
 
       </>

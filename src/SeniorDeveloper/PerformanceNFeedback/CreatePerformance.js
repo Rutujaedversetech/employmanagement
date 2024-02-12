@@ -10,15 +10,15 @@ import { MdModeEdit } from "react-icons/md";
 
 const CreatePerformance = () => {
     return (
-        <Box mt={'2.5%'} ml={'26%'} w={'50%'} h={'90%'} boxShadow='0px 5px 20px 0px #00000026' borderRadius={'28px'}>
-        <Flex w={'100%'} h={680} borderRadius={'28px'} >
+        <Box mt={'2.5%'} w={'100%'} h={'90%'}>
+        <Flex w={'100%'} h={'90vh'} borderRadius={'28px'}>
             
             
-            <Flex mt={'14%'}>
-            <Text w={'500px'} mt={'-6%'} ml={45} fontFamily="Inter" fontSize="32px" fontStyle="normal" fontWeight="500" lineHeight="16px" color="#000000" letterSpacing="-0.006em" textAlign={"left"} >
-              Performance & Feedback
+            <Flex mt={'14%'} w={'100%'}>
+            <Text w={'100%'} h={'10vh'} mt={'-8%'} fontFamily="Inter" fontSize="32px" fontStyle="normal" fontWeight="500" lineHeight="16px" color="#000000" letterSpacing="-0.006em" textAlign={"left"} >
+              Performance 
             </Text>
-                <VStack w={'580px'} ml={'-41%'} mt={'-2%'}
+                <VStack w={'580px'} mt={'2%'} ml={'-46%'}
                     divider={<StackDivider borderColor='gray.200' />}
                     spacing={4}
                     align='stretch'
@@ -92,7 +92,7 @@ const CreatePerformance = () => {
                 </VStack>
             </Flex>
             
-            <Flex mt={'79%'} ml={'-81%'} fontFamily="Inter">
+            <Flex mt={'130%'} ml={'-40%'} fontFamily="Inter">
                
                 <Button border={'1px'} borderRadius={'10px'} paddingLeft={6} paddingRight={6} colorScheme='#DDE2E4' background={'#ECECEC'} variant='outline' borderColor={'#DDE2E4'}>
                 <Link to="/PerformanceTable">Cancel</Link>

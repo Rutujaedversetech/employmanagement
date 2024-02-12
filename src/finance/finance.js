@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
@@ -8,10 +8,29 @@ import { FaFilter } from "react-icons/fa";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { Checkbox } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getempFINANCE } from "../Redux/finanance/action";
+import { decodeToken } from "react-jwt";
 
 
 
 const Finance = () => {
+  const  finance = useSelector((store) => store.finance.data);
+  console.log('finance',finance)
+
+  const  data = useSelector((store) => store.auth.data);
+  const  data2 = useSelector((store) => store.auth.singleData);
+
+console.log(data,data2)
+
+const myDecodedToken = decodeToken(data.token);
+console.log('myDecodedToken123 asset',myDecodedToken);
+
+
+  const dispatch=useDispatch()
+  useEffect(()=>{
+dispatch(getempFINANCE(myDecodedToken.emp_id))
+  },[])
     return (
         <>
         <Flex justifyContent={'space-between'} p='10' borderRadius={'28px'} fontFamily="Inter" bg=''>
@@ -33,10 +52,7 @@ const Finance = () => {
             Export
             </Button>
 
-            <Button  border={'1px'} borderRadius={'10px'} colorScheme='#FFB800' background={'black'} color={'#FFB800'} variant='outline' borderColor={'black'}>
-            <Link to="/RaiseRequest">Raise Request</Link>    
-            </Button>
-            
+
             </Flex>
             </Box>
           
